@@ -19,7 +19,7 @@ int main(void){
 	PLL_Init();
 	PortF_Init();
 	PWMSoftware_Init(&GPIO_PORTF_DATA_R, PF1, PWM_1KHZ_SYSCLK_50MHZ);
-	PWMSoftware_SetDuty(40);
+	PWMSoftware_SetDuty(70);
 	
 	while(1){
 		// Other stuffs
