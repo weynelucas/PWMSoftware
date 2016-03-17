@@ -1,12 +1,0 @@
-Dependencies for Project 'PWMSoftware', Target 'PWMSoftware': (DO NOT MODIFY !)
-F (.\startup.s)(0x51982D30)(--cpu Cortex-M4 --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary--list .\startup.lst --xref -o .\startup.o --depend .\startup.d)
-F (.\PLL.c)(0x56E5FA10)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections -I.. -I..\..\..-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\pll.o --omf_browse .\pll.crf --depend .\pll.d)
-I (PLL.h)(0x52320D50)
-I (tm4c123gh6pm.h)(0x51D48CD2)
-F (.\PWMSoftwareTestMain.c)(0x56E9F1E7)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections -I.. -I..\..\..-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\pwmsoftwaretestmain.o --omf_browse .\pwmsoftwaretestmain.crf --depend .\pwmsoftwaretestmain.d)
-I (PLL.h)(0x52320D50)
-I (PWMSoftware.h)(0x56E9E028)
-I (tm4c123gh6pm.h)(0x51D48CD2)
-F (.\PWMSoftware.c)(0x56E94E47)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections -I.. -I..\..\..-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\pwmsoftware.o --omf_browse .\pwmsoftware.crf --depend .\pwmsoftware.d)
-I (tm4c123gh6pm.h)(0x51D48CD2)
-I (PWMSoftware.h)(0x56E9E028)
