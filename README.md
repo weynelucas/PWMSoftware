@@ -51,5 +51,6 @@ int main(void){
 ## Specifications
 
 * The pin used as PWM must have your port initialized and pin configured as output before call `PWMSoftware_Init()`
+* Use only values presents on enum constant to select the pin to perform PWM (see on header file `PWMSoftware.h`)
 * Using PWMSoftware you cannot use SysTick Timer in your code to make other stuff because is used by library for periodic interrupts
 * Periodic interrupts of SysTick have priority 2, consider this if your code has others interrupts
