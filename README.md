@@ -5,11 +5,10 @@ A software PWM library for TM4C123GH6PM (ARM Cortex-M4F based microcontrollers f
 ##Usage
 ###Initialization
 ```c
-void PWMSoftware_Init(volatile unsigned long *GPIO_Port_Base_Addr, unsigned long GPIO_Pin_Mask, unsigned long period)
+void PWMSoftware_Init(Pin pin, unsigned long period)
 ```
 Where:
-* `GPIO_Port_Base_Addr` is the base address of GPIO Port
-* `GPIO_Pin_Mask` is the mask of pin to perform PWM
+* `pin` is a pin to perform the software PWM, it is an enum constant with all pins that can be used on microcontroller
 * `period` is the period of PWM in bus clock counts, its depends of the system clock
 
 For calculate the `period` value you can use the simple formula bellow:
@@ -38,8 +37,9 @@ The code bellow is a example to perform a pulse-width-modulation with 70% of dut
 #include "PWMSoftware.h"
 
 int main(void){
+  PLL_Init();        // configure 80 MHz for bus clock
   PortF_Init();      // initialize Port F (PF1 as output)
-  PWMSoftware_Init((volatile unsigned long*) 0x400253FC, 0x02, 80000);    // configure PWM on PF1 at 1 KHz
+  PWMSoftware_Init(PF1, 80000);    // configure PWM on PF1 at 1 KHz
   PWM_SetDuty(70);   // set a 70% duty cycle
   
   while(1){
@@ -48,23 +48,8 @@ int main(void){
 }
 ```
 
-To make your code more easy to understand is possible use the constants defined in `PWMSoftware` library 
-(see all constants defined in header file `PWMSoftware.h`) and also the `tm4c123gh6pm.h`, library provided by Texas Instruments
-its contais the TM4C123GH6PM Register Definitions. See bellow:
+## Specifications
 
-```c
-#include "PLL.h"
-#include "PWMSoftware.h"
-#include "tm4c123gh6pm.h"
-
-int main(void){
-  PLL_Init();        // initialize system clock with 80 MHz
-  PortF_Init();      // initialize Port F (PF1 as output)
-  PWMSoftware_Init(&GPIO_PORTF_DATA_R, PF1, PWM_1KHZ_SYSCLK_80MHZ);    // configure PWM on PF1 at 1 KHz
-  PWM_SetDuty(70);   // set a 70% duty cycle
-  
-  while(1){
-    // Other stuff
-  }
-}
-```
+* The pin used as PWM must have your port initialized and pin configured as output before call `PWMSoftware_Init()`
+* Using PWMSoftware you cannot use SysTick Timer in your code to make other stuff because is used by library for periodic interrupts
+* Periodic interrupts of SysTick have priority 2, consider this if your code has others interrupts
