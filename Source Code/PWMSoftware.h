@@ -2,7 +2,7 @@
 // Runs on LM4F120/TM4C123
 // A library to perform a software PWM on ARM Cortex-M4 Microncontroller (TM4C123 - Tiva C Series Launchpad)
 // Repository 
-// 		https://github.com/weynelucas/PWMSoftware
+// 		https://github.com/weynelucas/PWMSoftware.git
 // Lucas Weyne 
 //		weynelucas@gmail.com
 // 		https://github.com/weynelucas
