@@ -24,8 +24,8 @@
 // PWM Periods
 // period * (1/Bus Clock Frequency)
 //*****************************************************************************
-#define PWM_1KHZ_SYSCLK_80MHZ			80000					// PWM period for 1KHz frequency with 80MHz bus clock
-#define PWM_1KHZ_SYSCLK_50MHZ			50000					// PWM period for 1KHz frequency with 50MHz bus clock
+#define PWM_1KHZ_SYSCLK_80MHZ		80000					// PWM period for 1KHz frequency with 80MHz bus clock
+#define PWM_1KHZ_SYSCLK_50MHZ		50000					// PWM period for 1KHz frequency with 50MHz bus clock
 #define PWM_1KHZ_SYSCLCK_16MHz		16000					// PWM period for 1KHz frequency with 16MHz bus clock
 
 
@@ -44,8 +44,8 @@ typedef const enum{
 // **************PWMSoftware_Init************************
 // Initialize library with 0% duty cycle
 // Input: Pin to perform software PWM
-//				Period of PWM (depends of the bus clock)
-//					* Period = Bus clock frequency / PWM frequency
+//	  Period of PWM (depends of the bus clock)
+//		  * Period = Bus clock frequency / PWM frequency
 // Output: None
 void PWMSoftware_Init(Pin pin, unsigned long period);
 
