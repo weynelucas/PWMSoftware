@@ -60,9 +60,9 @@
 // ***********************************************************************
 //	Port and pin manipulation (auxiliar macros)
 // ***********************************************************************
-#define GetPinReg(pin) 				((volatile unsigned long *) (PortBaseAddress[(pin&0xF00)>>8] + PinAddressOffset[pin&0x0FF]))
+#define GetPinReg(pin) 		((volatile unsigned long *) (PortBaseAddress[(pin&0xF00)>>8] + PinAddressOffset[pin&0x0FF]))
 #define GetPortDataReg(port)	((volatile unsigned long *) (PortBaseAddress[port] + 0x03FC))
-#define GetPinMask(pin)				(1<<(pin&0x0FF))
+#define GetPinMask(pin)		(1<<(pin&0x0FF))
 
 // Ports base address table
 const unsigned long PortBaseAddress[6] = {
@@ -93,17 +93,17 @@ typedef struct{
 }GPIOPin;
 
 // Global variables
-GPIOPin PWMPin;							// struct to represent pin to perform PWM
-unsigned long High;					// duration of high phase 
-unsigned long Low;					// duration of low phase    
+GPIOPin PWMPin;			// struct to represent pin to perform PWM
+unsigned long High;		// duration of high phase 
+unsigned long Low;		// duration of low phase    
 unsigned long PWMPeriod;   	// PWM period count (High + Low = PWMPeriod)
 
 
 // **************PWMSoftware_Init************************
 // Initialize library with 0% duty cycle
 // Input: Pin to perform software PWM
-//				Period of PWM (depends of the bus clock)
-//					* Period = Bus clock frequency / PWM frequency
+//	  Period of PWM (depends of the bus clock)
+//		  * Period = Bus clock frequency / PWM frequency
 // Output: None
 void PWMSoftware_Init(Pin pin, unsigned long period){
 	PWMPin.addr = GetPinReg(pin);
@@ -113,10 +113,10 @@ void PWMSoftware_Init(Pin pin, unsigned long period){
 	PWMSoftware_SetDuty(0);			// initialize 0% of duty cycle 	
 	
 	// Initialize SysTick Timer
-	NVIC_ST_CTRL_R = 0;																															// clear SysTick during initialization
-	NVIC_ST_RELOAD_R = (Low - 1)&0x00FFFFFF;																				// set reload value		
-	NVIC_ST_CURRENT_R = 0;																													// any value written to current clears it
-	NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x40000000; 											// priority 2  
+	NVIC_ST_CTRL_R = 0;								// clear SysTick during initialization
+	NVIC_ST_RELOAD_R = (Low - 1)&0x00FFFFFF;					// set reload value		
+	NVIC_ST_CURRENT_R = 0;								// any value written to current clears it
+	NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x40000000; 			// priority 2  
 	NVIC_ST_CTRL_R = (NVIC_ST_CTRL_CLK_SRC|NVIC_ST_CTRL_ENABLE|NVIC_ST_CTRL_INTEN); // enable SysTick with core clock and interrupts
 }
 
@@ -142,8 +142,8 @@ void SysTick_Handler(void){
 	// Toggle PWM pin
 	if(*PWMPin.addr&PWMPin.mask){
 		if(Low){																					
-			*PWMPin.addr &= ~PWMPin.mask; // make PWM pin low
-			NVIC_ST_RELOAD_R = Low - 1;		// reload value for low phase
+			*PWMPin.addr &= ~PWMPin.mask; 	// make PWM pin low
+			NVIC_ST_RELOAD_R = Low - 1;	// reload value for low phase
 		}
 
 	} else{
