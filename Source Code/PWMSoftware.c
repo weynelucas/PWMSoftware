@@ -55,7 +55,7 @@
 #define BIT4_OFFSET		0x0040
 #define BIT5_OFFSET		0x0080
 #define BIT6_OFFSET		0x0100
-#define BIT7_OFFSET   0x0200
+#define BIT7_OFFSET   		0x0200
 
 // ***********************************************************************
 //	Port and pin manipulation (auxiliar macros)
