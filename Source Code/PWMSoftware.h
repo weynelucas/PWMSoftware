@@ -10,7 +10,6 @@
 
 /* 
 	Specifications:
-		* The port must be initialized and PWM pin congigured as output before initialize this library
 		* Use enum constants defined on header file to select wich pin you want to use
 		* Using this library, you cannot use SysTick Timer in your project because is used by PWMSoftware
 		* Periodic interrupts has priority 2
@@ -24,9 +23,9 @@
 // PWM Periods
 // period * (1/Bus Clock Frequency)
 //*****************************************************************************
-#define PWM_1KHZ_SYSCLK_80MHZ		80000					// PWM period for 1KHz frequency with 80MHz bus clock
-#define PWM_1KHZ_SYSCLK_50MHZ		50000					// PWM period for 1KHz frequency with 50MHz bus clock
-#define PWM_1KHZ_SYSCLCK_16MHz		16000					// PWM period for 1KHz frequency with 16MHz bus clock
+#define PWM_1KHZ_SYSCLK_80MHZ		80000		// PWM period for 1KHz frequency with 80MHz bus clock
+#define PWM_1KHZ_SYSCLK_50MHZ		50000		// PWM period for 1KHz frequency with 50MHz bus clock
+#define PWM_1KHZ_SYSCLCK_16MHz		16000		// PWM period for 1KHz frequency with 16MHz bus clock
 
 
 // Enum constans of GPIO pins
