@@ -52,10 +52,10 @@
 //	GPIO registers offset
 // ***********************************************************************
 #define GPIO_DIR_OFFSET		  	0x00000400
-#define GPIO_AFSEL_OFFSET			0x00000420
+#define GPIO_AFSEL_OFFSET		0x00000420
 #define GPIO_DEN_OFFSET		  	0x0000051C
-#define GPIO_AMSEL_OFFSET			0x00000528
-#define GPIO_PCTL_OFFSET			0x0000052C
+#define GPIO_AMSEL_OFFSET		0x00000528
+#define GPIO_PCTL_OFFSET		0x0000052C
 
 // ***********************************************************************
 //	GPIO pins offset (bit-specific addressing)
