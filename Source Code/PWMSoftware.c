@@ -10,7 +10,6 @@
 
 /* 
 	Specifications:
-		* The port must be initialized and PWM pin congigured as output before initialize this library
 		* Use enum constants defined on header file to select wich pin you want to use
 		* Using this library, you cannot use SysTick Timer in your project because is used by PWMSoftware
 		* Periodic interrupts has priority 2
@@ -191,11 +190,11 @@ void SysTick_Handler(void){
 //	Private functions implementations
 // ***********************************************************************
 void Port_Init(void){volatile unsigned long delay;
-	SYSCTL_RCGC2_R  |= (1<<PWMPin.portNumber);								// activate clock for PWM port
-	delay = SYSCTL_RCGC2_R;																		// allow time for clock to stabilize
-	*PWMPort.AFSEL &= ~PWMPin.mask;													  // disable alternate function on PWM pin
-	*PWMPort.PCTL &= ~(0x0000000F<<(PWMPin.pinNumber*4));		  // clear PCTL bits on PWM pin to select regular I/O
-	*PWMPort.DIR |= PWMPin.mask;															// make PWM pin output
-	*PWMPort.AMSEL &= ~PWMPin.mask;													  // disable analog functionality on PWM pin
-	*PWMPort.DEN |= PWMPin.mask;															// Enable I/O on PWM pin
+	SYSCTL_RCGC2_R  |= (1<<PWMPin.portNumber);		// activate clock for PWM port
+	delay = SYSCTL_RCGC2_R;					// allow time for clock to stabilize
+	*PWMPort.AFSEL &= ~PWMPin.mask;				// disable alternate function on PWM pin
+	*PWMPort.PCTL &= ~(0x0000000F<<(PWMPin.pinNumber*4));	// clear PCTL bits on PWM pin to select regular I/O
+	*PWMPort.DIR |= PWMPin.mask;				// make PWM pin output
+	*PWMPort.AMSEL &= ~PWMPin.mask;				// disable analog functionality on PWM pin
+	*PWMPort.DEN |= PWMPin.mask;				// Enable I/O on PWM pin
 }
