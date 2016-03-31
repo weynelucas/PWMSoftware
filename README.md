@@ -38,7 +38,6 @@ The code bellow is a example to perform a pulse-width-modulation with 70% of dut
 
 int main(void){
   PLL_Init();        // configure 80 MHz for bus clock
-  PortF_Init();      // initialize Port F (PF1 as output)
   PWMSoftware_Init(PF1, 80000);    // configure PWM on PF1 at 1 KHz
   PWM_SetDuty(70);   // set a 70% duty cycle
   
