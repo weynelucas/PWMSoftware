@@ -34,6 +34,10 @@
 #define NVIC_ST_CTRL_ENABLE     0x00000001  // Counter mode
 #define NVIC_ST_RELOAD_M        0x00FFFFFF  // Counter load value
 
+// ***********************************************************************
+//	Run Mode Clock Gating Control Register 2
+// ***********************************************************************
+#define SYSCTL_RCGC2_R          (*((volatile unsigned long *)0x400FE108))
 
 // ***********************************************************************
 //	GPIO ports (base address)
@@ -61,7 +65,6 @@
 //	Port and pin manipulation (auxiliar macros)
 // ***********************************************************************
 #define GetPinReg(pin) 		((volatile unsigned long *) (PortBaseAddress[(pin&0xF00)>>8] + PinAddressOffset[pin&0x0FF]))
-#define GetPortDataReg(port)	((volatile unsigned long *) (PortBaseAddress[port] + 0x03FC))
 #define GetPinMask(pin)		(1<<(pin&0x0FF))
 
 // Ports base address table
@@ -90,14 +93,32 @@ const unsigned long PinAddressOffset[8] = {
 typedef struct{
 	volatile unsigned long *addr;
 	unsigned char mask;
+	unsigned char pinNumber;
+	unsigned char portNumber;
 }GPIOPin;
+
+// Struct to represent GPIO port
+typedef struct{
+	volatile unsigned long BASE_ADDRESS;
+	volatile unsigned long *AFSEL;
+	volatile unsigned long *AMSEL;
+	volatile unsigned long *PCTL;
+	volatile unsigned long *DEN;
+	volatile unsigned long *DIR;
+} GPIOPort;
 
 // Global variables
 GPIOPin PWMPin;			// struct to represent pin to perform PWM
+GPIOPort PWMPort;		// struct to represent registers of PWM port
 unsigned long High;		// duration of high phase 
 unsigned long Low;		// duration of low phase    
 unsigned long PWMPeriod;   	// PWM period count (High + Low = PWMPeriod)
 
+
+// ***********************************************************************
+//	Private functions prototypes
+// ***********************************************************************
+void Port_Init(void);
 
 // **************PWMSoftware_Init************************
 // Initialize library with 0% duty cycle
@@ -108,7 +129,18 @@ unsigned long PWMPeriod;   	// PWM period count (High + Low = PWMPeriod)
 void PWMSoftware_Init(Pin pin, unsigned long period){
 	PWMPin.addr = GetPinReg(pin);
 	PWMPin.mask = GetPinMask(pin);
+	PWMPin.pinNumber = pin&0x0FF;
+	PWMPin.portNumber = (pin&0xF00)>>8;
 	
+	// Get GPIO registers
+	PWMPort.BASE_ADDRESS = PortBaseAddress[PWMPin.portNumber];
+	PWMPort.AFSEL = (volatile unsigned long *) (PWMPort.BASE_ADDRESS + GPIO_AFSEL_OFFSET);
+	PWMPort.AMSEL = (volatile unsigned long *) (PWMPort.BASE_ADDRESS + GPIO_AMSEL_OFFSET);
+	PWMPort.PCTL = (volatile unsigned long *) (PWMPort.BASE_ADDRESS + GPIO_PCTL_OFFSET);
+	PWMPort.DIR = (volatile unsigned long *) (PWMPort.BASE_ADDRESS + GPIO_DIR_OFFSET);
+	PWMPort.DEN = (volatile unsigned long *) (PWMPort.BASE_ADDRESS + GPIO_DEN_OFFSET);
+	
+	Port_Init();
 	PWMPeriod = period;
 	PWMSoftware_SetDuty(0);			// initialize 0% of duty cycle 	
 	
@@ -152,4 +184,18 @@ void SysTick_Handler(void){
 			NVIC_ST_RELOAD_R = High - 1;	// reload value for high phase
 		}
 	}
+}
+
+
+// ***********************************************************************
+//	Private functions implementations
+// ***********************************************************************
+void Port_Init(void){volatile unsigned long delay;
+	SYSCTL_RCGC2_R  |= (1<<PWMPin.portNumber);								// activate clock for PWM port
+	delay = SYSCTL_RCGC2_R;																		// allow time for clock to stabilize
+	*PWMPort.AFSEL &= ~PWMPin.mask;													  // disable alternate function on PWM pin
+	*PWMPort.PCTL &= ~(0x0000000F<<(PWMPin.pinNumber*4));		  // clear PCTL bits on PWM pin to select regular I/O
+	*PWMPort.DIR |= PWMPin.mask;															// make PWM pin output
+	*PWMPort.AMSEL &= ~PWMPin.mask;													  // disable analog functionality on PWM pin
+	*PWMPort.DEN |= PWMPin.mask;															// Enable I/O on PWM pin
 }
