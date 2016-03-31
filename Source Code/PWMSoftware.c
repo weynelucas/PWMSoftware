@@ -49,16 +49,25 @@
 #define GPIO_PORTF_BASE		0x40025000
 
 // ***********************************************************************
+//	GPIO registers offset
+// ***********************************************************************
+#define GPIO_DIR_OFFSET		  	0x00000400
+#define GPIO_AFSEL_OFFSET			0x00000420
+#define GPIO_DEN_OFFSET		  	0x0000051C
+#define GPIO_AMSEL_OFFSET			0x00000528
+#define GPIO_PCTL_OFFSET			0x0000052C
+
+// ***********************************************************************
 //	GPIO pins offset (bit-specific addressing)
 // ***********************************************************************
-#define BIT0_OFFSET		0x0004
-#define BIT1_OFFSET		0x0008
-#define BIT2_OFFSET		0x0010
-#define BIT3_OFFSET		0x0020
-#define BIT4_OFFSET		0x0040
-#define BIT5_OFFSET		0x0080
-#define BIT6_OFFSET		0x0100
-#define BIT7_OFFSET   		0x0200
+#define BIT0_OFFSET			0x0004
+#define BIT1_OFFSET			0x0008
+#define BIT2_OFFSET			0x0010
+#define BIT3_OFFSET			0x0020
+#define BIT4_OFFSET			0x0040
+#define BIT5_OFFSET			0x0080
+#define BIT6_OFFSET			0x0100
+#define BIT7_OFFSET			0x0200
 
 // ***********************************************************************
 //	Port and pin manipulation (auxiliar macros)
@@ -184,7 +193,6 @@ void SysTick_Handler(void){
 		}
 	}
 }
-
 
 // ***********************************************************************
 //	Private functions implementations
