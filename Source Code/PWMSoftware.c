@@ -182,14 +182,14 @@ void SysTick_Handler(void){
 	// Toggle PWM pin
 	if(*PWMPin.addr&PWMPin.mask){
 		if(Low){																					
-			*PWMPin.addr &= ~PWMPin.mask; 	// make PWM pin low
-			NVIC_ST_RELOAD_R = Low - 1;			// reload value for low phase
+			*PWMPin.addr &= ~PWMPin.mask; 			// make PWM pin low
+			NVIC_ST_RELOAD_R = Low - 1;					// reload value for low phase
 		}
 
 	} else{
 		if(High){
-			*PWMPin.addr |= PWMPin.mask; 	// make PWM pin high
-			NVIC_ST_RELOAD_R = High - 1;	// reload value for high phase
+			*PWMPin.addr |= PWMPin.mask; 			// make PWM pin high
+			NVIC_ST_RELOAD_R = High - 1;			// reload value for high phase
 		}
 	}
 }
@@ -197,12 +197,12 @@ void SysTick_Handler(void){
 // ***********************************************************************
 //	Private functions implementations
 // ***********************************************************************
-void Port_Init(void){volatile unsigned long delay;
-	SYSCTL_RCGC2_R  |= (1<<PWMPin.portNumber);										// activate clock for PWM port
-	delay = SYSCTL_RCGC2_R;																				// allow time for clock to stabilize
-	*PWMPort.AFSEL &= ~PWMPin.mask;																// disable alternate function on PWM pin
-	*PWMPort.PCTL &= ~(0x0000000F<<(PWMPin.pinNumber*4));					// clear PCTL bits on PWM pin to select regular I/O
-	*PWMPort.DIR |= PWMPin.mask;																	// make PWM pin output
-	*PWMPort.AMSEL &= ~PWMPin.mask;																// disable analog functionality on PWM pin
-	*PWMPort.DEN |= PWMPin.mask;																	// Enable I/O on PWM pin
+void Port_Init(void){volatile unsigned long delay;	
+	SYSCTL_RCGC2_R  |= (1<<PWMPin.portNumber);											// activate clock for PWM port
+	delay = SYSCTL_RCGC2_R;																					// allow time for clock to stabilize
+	*PWMPort.AFSEL &= ~PWMPin.mask;																	// disable alternate function on PWM pin
+	*PWMPort.PCTL &= ~(0x0000000F<<(PWMPin.pinNumber*4));						// clear PCTL bits on PWM pin to select regular I/O
+	*PWMPort.DIR |= PWMPin.mask;																		// make PWM pin output
+	*PWMPort.AMSEL &= ~PWMPin.mask;																	// disable analog functionality on PWM pin
+	*PWMPort.DEN |= PWMPin.mask;																		// enable I/O on PWM pin
 }
