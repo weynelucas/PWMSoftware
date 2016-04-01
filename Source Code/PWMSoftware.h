@@ -23,9 +23,9 @@
 // PWM Periods
 // period * (1/Bus Clock Frequency)
 //*****************************************************************************
-#define PWM_1KHZ_SYSCLK_80MHZ		80000		// PWM period for 1KHz frequency with 80MHz bus clock
-#define PWM_1KHZ_SYSCLK_50MHZ		50000		// PWM period for 1KHz frequency with 50MHz bus clock
-#define PWM_1KHZ_SYSCLCK_16MHz		16000		// PWM period for 1KHz frequency with 16MHz bus clock
+#define PWM_1KHZ_SYSCLK_80MHZ    80000    // PWM period for 1KHz frequency with 80MHz bus clock
+#define PWM_1KHZ_SYSCLK_50MHZ    50000    // PWM period for 1KHz frequency with 50MHz bus clock
+#define PWM_1KHZ_SYSCLCK_16MHz   16000    // PWM period for 1KHz frequency with 16MHz bus clock
 
 
 // Enum constans of GPIO pins
