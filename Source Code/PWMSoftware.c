@@ -41,33 +41,33 @@
 // ***********************************************************************
 //	GPIO ports (base address)
 // ***********************************************************************
-#define GPIO_PORTA_BASE		0x40004000
-#define GPIO_PORTB_BASE		0x40005000
-#define GPIO_PORTC_BASE		0x40006000
-#define GPIO_PORTD_BASE		0x40007000
-#define GPIO_PORTE_BASE		0x40024000
-#define GPIO_PORTF_BASE		0x40025000
+#define GPIO_PORTA_BASE			0x40004000
+#define GPIO_PORTB_BASE			0x40005000
+#define GPIO_PORTC_BASE			0x40006000
+#define GPIO_PORTD_BASE			0x40007000
+#define GPIO_PORTE_BASE			0x40024000
+#define GPIO_PORTF_BASE			0x40025000
 
 // ***********************************************************************
 //	GPIO registers offset
 // ***********************************************************************
 #define GPIO_DIR_OFFSET		  	0x00000400
-#define GPIO_AFSEL_OFFSET		0x00000420
+#define GPIO_AFSEL_OFFSET			0x00000420
 #define GPIO_DEN_OFFSET		  	0x0000051C
-#define GPIO_AMSEL_OFFSET		0x00000528
-#define GPIO_PCTL_OFFSET		0x0000052C
+#define GPIO_AMSEL_OFFSET			0x00000528
+#define GPIO_PCTL_OFFSET			0x0000052C
 
 // ***********************************************************************
 //	GPIO pins offset (bit-specific addressing)
 // ***********************************************************************
-#define BIT0_OFFSET			0x0004
-#define BIT1_OFFSET			0x0008
-#define BIT2_OFFSET			0x0010
-#define BIT3_OFFSET			0x0020
-#define BIT4_OFFSET			0x0040
-#define BIT5_OFFSET			0x0080
-#define BIT6_OFFSET			0x0100
-#define BIT7_OFFSET			0x0200
+#define BIT0_OFFSET				0x0004
+#define BIT1_OFFSET				0x0008
+#define BIT2_OFFSET				0x0010
+#define BIT3_OFFSET				0x0020
+#define BIT4_OFFSET				0x0040
+#define BIT5_OFFSET				0x0080
+#define BIT6_OFFSET				0x0100
+#define BIT7_OFFSET				0x0200
 
 // ***********************************************************************
 //	Port and pin manipulation (auxiliar macros)
@@ -116,11 +116,11 @@ typedef struct{
 } GPIOPort;
 
 // Global variables
-GPIOPin PWMPin;			// struct to represent pin to perform PWM
-GPIOPort PWMPort;		// struct to represent registers of PWM port
-unsigned long High;		// duration of high phase 
-unsigned long Low;		// duration of low phase    
-unsigned long PWMPeriod;   	// PWM period count (High + Low = PWMPeriod)
+GPIOPin PWMPin;			    				// struct to represent pin to perform PWM
+GPIOPort PWMPort;		    				// struct to represent registers of PWM port
+unsigned long High;		  				// duration of high phase 
+unsigned long Low;		  				// duration of low phase    
+unsigned long PWMPeriod;   			// PWM period count (High + Low = PWMPeriod)
 
 
 // ***********************************************************************
@@ -153,11 +153,11 @@ void PWMSoftware_Init(Pin pin, unsigned long period){
 	PWMSoftware_SetDuty(0);			// initialize 0% of duty cycle 	
 	
 	// Initialize SysTick Timer
-	NVIC_ST_CTRL_R = 0;								// clear SysTick during initialization
-	NVIC_ST_RELOAD_R = (Low - 1)&0x00FFFFFF;					// set reload value		
-	NVIC_ST_CURRENT_R = 0;								// any value written to current clears it
-	NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x40000000; 			// priority 2  
-	NVIC_ST_CTRL_R = (NVIC_ST_CTRL_CLK_SRC|NVIC_ST_CTRL_ENABLE|NVIC_ST_CTRL_INTEN); // enable SysTick with core clock and interrupts
+	NVIC_ST_CTRL_R = 0;																																	// clear SysTick during initialization
+	NVIC_ST_RELOAD_R = (Low - 1)&0x00FFFFFF;																						// set reload value		
+	NVIC_ST_CURRENT_R = 0;																															// any value written to current clears it
+	NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x40000000; 													// priority 2  
+	NVIC_ST_CTRL_R = (NVIC_ST_CTRL_CLK_SRC|NVIC_ST_CTRL_ENABLE|NVIC_ST_CTRL_INTEN); 		// enable SysTick with core clock and interrupts
 }
 
 // **************PWMSoftware_SetDuty*********************
@@ -183,7 +183,7 @@ void SysTick_Handler(void){
 	if(*PWMPin.addr&PWMPin.mask){
 		if(Low){																					
 			*PWMPin.addr &= ~PWMPin.mask; 	// make PWM pin low
-			NVIC_ST_RELOAD_R = Low - 1;	// reload value for low phase
+			NVIC_ST_RELOAD_R = Low - 1;			// reload value for low phase
 		}
 
 	} else{
@@ -198,11 +198,11 @@ void SysTick_Handler(void){
 //	Private functions implementations
 // ***********************************************************************
 void Port_Init(void){volatile unsigned long delay;
-	SYSCTL_RCGC2_R  |= (1<<PWMPin.portNumber);		// activate clock for PWM port
-	delay = SYSCTL_RCGC2_R;					// allow time for clock to stabilize
-	*PWMPort.AFSEL &= ~PWMPin.mask;				// disable alternate function on PWM pin
-	*PWMPort.PCTL &= ~(0x0000000F<<(PWMPin.pinNumber*4));	// clear PCTL bits on PWM pin to select regular I/O
-	*PWMPort.DIR |= PWMPin.mask;				// make PWM pin output
-	*PWMPort.AMSEL &= ~PWMPin.mask;				// disable analog functionality on PWM pin
-	*PWMPort.DEN |= PWMPin.mask;				// Enable I/O on PWM pin
+	SYSCTL_RCGC2_R  |= (1<<PWMPin.portNumber);										// activate clock for PWM port
+	delay = SYSCTL_RCGC2_R;																				// allow time for clock to stabilize
+	*PWMPort.AFSEL &= ~PWMPin.mask;																// disable alternate function on PWM pin
+	*PWMPort.PCTL &= ~(0x0000000F<<(PWMPin.pinNumber*4));					// clear PCTL bits on PWM pin to select regular I/O
+	*PWMPort.DIR |= PWMPin.mask;																	// make PWM pin output
+	*PWMPort.AMSEL &= ~PWMPin.mask;																// disable analog functionality on PWM pin
+	*PWMPort.DEN |= PWMPin.mask;																	// Enable I/O on PWM pin
 }
