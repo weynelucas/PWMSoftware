@@ -2,8 +2,8 @@
 A software PWM library for TM4C123GH6PM (ARM Cortex-M4F based microcontrollers from Texas Instruments) to perform PWM signals with any digital I/O pin of microcontroller.
 
 
-##Usage
-###Initialization
+## Usage
+### Initialization
 ```c
 void PWMSoftware_Init(Pin pin, unsigned long period)
 ```
@@ -19,7 +19,7 @@ For calculate the `period` value you can use the simple formula bellow:
 
 For example, if you working with 80 MHz system clock and want a 1 KHz PWM signal, the `period` value must be equal to 80000.
 
-###Configure Duty Cycle
+### Configure Duty Cycle
 ```c
 void PWMSoftware_SetDuty(unsigned char duty)
 ```
